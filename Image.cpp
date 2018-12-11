@@ -52,10 +52,12 @@ Image::Image(const std::string fn) {
     m_fn = fn;
     m_file.open(m_fn, std::ios::binary);
 
-    if(!is_png()) {
-        throw std::runtime_error("Invalid filetype; unable to detect PNG signature.");
-    }
+    if (!m_file)
+        throw std::runtime_error("Unable to open file " + m_fn);
 
+    if(!is_png())
+        throw std::runtime_error("Invalid filetype; unable to detect PNG signature.");
+    
     init_png_io();
 
     m_width = png_get_image_width(m_read, m_info);
