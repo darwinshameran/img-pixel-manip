@@ -48,7 +48,7 @@ void Image::init_png_io() {
     png_read_info(m_read, m_info);
 }
 
-Image::Image(const std::string fn) noexcept(false) {
+Image::Image(const std::string fn) {
     m_fn = fn;
     m_file.open(m_fn);
 
