@@ -13,7 +13,7 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CC) -o $@ $^ $(LIBS)
 %.o: %.cpp
-	$(CC) $(CFLAGS) -lpng -lSDL2 -c $<
+	$(CC) $(CFLAGS) -c $<
 clean:
 	rm -rf $(TARGET) *.o
 
