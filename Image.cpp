@@ -70,6 +70,11 @@ Image::Image(const std::string fn) {
     png_read_update_info(m_read, m_info);
 }
 
+void Image::read_image() const {
+    png_read_image(m_read, m_pixels);  /* Populate m_pixels with image data. */
+    png_read_end(m_read, m_info);
+}
+
 /*
  * Ensure the first eight bytes of supplied PNG file match the PNG
  * signature. The first eight bytes of a PNG file always contain the same
