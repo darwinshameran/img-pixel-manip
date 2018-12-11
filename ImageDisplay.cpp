@@ -24,13 +24,13 @@ ImageDisplay::ImageDisplay(const char* window_title, int width, int height, int 
 
 /*
  * A truecolor PNG image uses three seperate values for each
- * pixel (R, G, B) each being 8 bits. Each of these values belong to a
+ * pixel (R, G, B(, A)) each being 8 bits. Each of these values belong to a
  * channel. Thus a png24 image has three channels (24 / 8), and a greyscale
  * png8 (8 / 8) has one channel. A special channel exists for Alpha, however
  * this channel does not provide any color but rather decides the opacity
  * for each pixel.
  *
- * To seamlessly use SDL_CreateRGBSurfaceFrom() we pack the bits by shifting
+ * To use SDL_CreateRGBSurfaceFrom() we pack the bits by shifting
  * them to ensure a valid 0xAABBGGRR hex. (0xRRGGBBAA is reversed due to
  * endianness.)
  *
@@ -39,7 +39,7 @@ ImageDisplay::ImageDisplay(const char* window_title, int width, int height, int 
  *
  */
 void ImageDisplay::convert_to_rgba(unsigned char** data) {
-    m_pixels = new unsigned[m_height * m_width];
+    m_pixels = new unsigned int[m_height * m_width];
 
     switch (m_channels) {
         case 1: {   /* png8 */
@@ -68,6 +68,40 @@ void ImageDisplay::convert_to_rgba(unsigned char** data) {
     }
 }
 
+void ImageDisplay::display_image(unsigned char** pixels) {
+    convert_to_rgba(pixels);
+
+    SDL_Surface* image = SDL_CreateRGBSurfaceFrom(
+            m_pixels,
+            m_width,
+            m_height,
+            32,             /* depth */
+            m_pitch,
+            0x000000ff,     /* R bitmask */
+            0x0000ff00,     /* G bitmask */
+            0x00ff0000,     /* B bitmask */
+            0xff000000);    /* A bitmask */
+
+    SDL_BlitSurface(image, NULL, m_screen, NULL);
+    SDL_FreeSurface(image);
+    SDL_UpdateWindowSurface(m_window);
+
+    bool quit = false;
+
+    /* Exit when SDL emits event SDL_QUIT. */
+    while (!quit) {
+        SDL_Event event;
+        SDL_WaitEvent(&event);
+
+        switch (event.type) {
+            case SDL_QUIT:
+                quit = true;
+                break;
+        }
+    }
+
+    SDL_DestroyWindow(m_window);
+    SDL_Quit();
 }
 
 ImageDisplay::~ImageDisplay() {
