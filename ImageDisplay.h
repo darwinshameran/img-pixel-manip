@@ -18,6 +18,7 @@ class ImageDisplay {
     SDL_Window* m_window;
 
     void convert_to_rgba(unsigned char**);
+
  public:
     ImageDisplay(const char*, int, int, int);
     ~ImageDisplay();
