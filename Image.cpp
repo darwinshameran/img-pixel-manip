@@ -39,8 +39,9 @@ void write_callback(png_structp png_ptr, png_bytep data, png_size_t len) {
 void Image::init_png_io() {
     m_read = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
     m_info = png_create_info_struct(m_read);
-
-    /* Define our own input function for reading PNG files, as opposed to using
+    
+    /*
+     * Define our own input function for reading PNG files, as opposed to using
      * the standard C I/O.
      */
     png_set_read_fn(m_read, reinterpret_cast<png_voidp>(&m_file), read_callback);
