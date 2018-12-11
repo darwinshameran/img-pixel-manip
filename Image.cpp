@@ -1,14 +1,30 @@
 #include "Image.h"
 
 /*
- * Initialize libpng I/O. 
+ * Callback function passed to png_set_read_fn()
+ */
+void read_callback(png_structp png_ptr, png_bytep data, png_size_t len) {
+    png_voidp io_ptr = png_get_io_ptr(png_ptr);
+    reinterpret_cast<std::ifstream*>(io_ptr)->read(reinterpret_cast<char*>(data), len);
+}
+
+/*
+ * Callback function passed to png_set_write_fn()
+ */
+void write_callback(png_structp png_ptr, png_bytep data, png_size_t len) {
+    png_voidp io_ptr = png_get_io_ptr(png_ptr);
+    reinterpret_cast<std::ofstream*>(io_ptr)->write(reinterpret_cast<char*>(data), len);
+}
+
+/*
+ * Initialize libpng I/O.
  *
  * Allocate and initialize structs png_struct and png_info, both of which are
  * crucial to working with libpng.
- * 
+ *
  * struct png_struct is used internally by libpng and must be the first
  * variable to every libpng function call.
- * 
+ *
  * struct png_info contains information about the PNG file, such as
  * IHDR chunk, image palette information and text comments.
  *
