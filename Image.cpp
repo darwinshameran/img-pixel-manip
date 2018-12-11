@@ -1,4 +1,6 @@
 #include "Image.h"
+#include "Blur.h"
+#include "Invert.h"
 
 /*
  * Callback function passed to png_set_read_fn()
@@ -75,6 +77,15 @@ void Image::read_image() const {
     png_read_end(m_read, m_info);
 }
 
+void Image::apply_filter(const char* f) const {
+    std::string filter(f);
+    std::transform(filter.begin(), filter.end(), filter.begin(), ::tolower);
+
+    if (filter == "blur")
+        Blur(m_width, m_height, m_channels, m_pixels);
+    else if (filter == "invert")
+        Invert(m_width, m_height, m_channels, m_pixels);
+}
 
 void Image::write_image() const {
     std::ofstream output("output.png", std::ios::binary);
