@@ -1,6 +1,7 @@
 #include "Image.h"
 #include "Blur.h"
 #include "Invert.h"
+#include "ImageDisplay.h"
 
 /*
  * Callback function passed to png_set_read_fn()
@@ -75,6 +76,11 @@ Image::Image(const std::string fn) noexcept(false) {
 void Image::read_image() const {
     png_read_image(m_read, m_pixels);  /* Populate m_pixels with image data. */
     png_read_end(m_read, m_info);
+}
+
+void Image::display_image(const char* window_title) const {
+    ImageDisplay display(window_title, m_width, m_height, m_channels);
+    display.display_image(m_pixels);
 }
 
 void Image::apply_filter(const char* f) const {
