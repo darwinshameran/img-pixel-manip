@@ -49,6 +49,10 @@ Image::Image(const std::string fn) {
     m_fn = fn;
     m_file.open(m_fn);
 
+    if(!is_png()) {
+        throw std::runtime_error("Invalid filetype; unable to ensure PNG.");
+    }
+
     init_png_io();
 
     m_width = png_get_image_width(m_read, m_info);
@@ -64,6 +68,33 @@ Image::Image(const std::string fn) {
     }
 
     png_read_update_info(m_read, m_info);
+}
+
+/*
+ * Ensure the first eight bytes of supplied PNG file match the PNG
+ * signature. The first eight bytes of a PNG file always contain the same
+ * values. Return zero if the signature does not match, respectively, one
+ * if the signature does match. The following bytes are used as a signature to
+ * verify PNG files:
+ *
+ *      (decimal)              137  80  78  71  13  10  26  10
+ *      (hex)                   89  50  4e  47  0d  0a  1a  0a
+ *      (ASCII C)             \211   P   N   G  \r  \n \032 \n
+ *
+ * Ref: http://www.libpng.org/pub/png/book/chapter08.html#png.ch08.tbl.1
+ *
+ */
+bool Image::is_png() const {
+    const unsigned int signature_bytes = 8;
+    std::ifstream file(m_fn, std::ios::binary);
+    png_byte header[signature_bytes];
+
+    if (!file.good())
+        return false;
+
+    file.read(reinterpret_cast<char *>(header), signature_bytes);
+
+    return (png_sig_cmp(header, 0, signature_bytes) == 0);
 }
 
 Image::~Image() {
