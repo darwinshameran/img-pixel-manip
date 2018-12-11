@@ -2,7 +2,7 @@
 
 /* Invert colors. */
 
-Invert::Invert(int width, int height, int channels, unsigned char** pixels) noexcept {
+Invert::Invert(int width, int height, int channels, unsigned char** pixels) {
     channels = (channels == 4) ? 3 : channels;
     for (int i = 0; i < height; i++) {
         auto row = pixels[i];
@@ -10,7 +10,7 @@ Invert::Invert(int width, int height, int channels, unsigned char** pixels) noex
         for (int j = 0; j < width; j++) {
             auto px = &(row[j * channels]);
 
-            /* Invert each channel (R, G, B) */
+            /* Invert each channel (R, G, B(, A)) */
             for (int x = 0; x < channels; x++) {
                 px[x] = (255 - px[x]);
             }

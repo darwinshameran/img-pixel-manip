@@ -3,7 +3,7 @@
 
 class Invert {
  public:
-     Invert(int, int, int, unsigned char**) noexcept;
+     Invert(int, int, int, unsigned char**);
      ~Invert();
 };
 
