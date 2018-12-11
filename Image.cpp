@@ -26,7 +26,7 @@ void write_callback(png_structp png_ptr, png_bytep data, png_size_t len) {
  * crucial to working with libpng.
  *
  * struct png_struct is used internally by libpng and must be the first
- * variable to every libpng function call.
+ * argument to every libpng function call.
  *
  * struct png_info contains information about the PNG file, such as
  * IHDR chunk, image palette information and text comments.
