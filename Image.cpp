@@ -75,6 +75,31 @@ void Image::read_image() const {
     png_read_end(m_read, m_info);
 }
 
+
+void Image::write_image() const {
+    std::ofstream output("output.png", std::ios::binary);
+    png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    png_set_write_fn(png_ptr, reinterpret_cast<png_voidp>(&output), write_callback, NULL);
+
+    /* Set file header. */
+    png_set_IHDR(
+            png_ptr,
+            m_info,
+            m_width, m_height,
+            m_bitdepth,
+            m_color_type,
+            PNG_INTERLACE_NONE,
+            PNG_COMPRESSION_TYPE_DEFAULT,
+            PNG_FILTER_TYPE_DEFAULT
+            );
+
+    png_write_info(png_ptr, m_info);
+    png_write_image(png_ptr, m_pixels);
+    png_write_end(png_ptr, m_info);
+
+    png_destroy_write_struct(&png_ptr, nullptr);    /* Free allocated memory. */
+}
+
 /*
  * Ensure the first eight bytes of supplied PNG file match the PNG
  * signature. The first eight bytes of a PNG file always contain the same
