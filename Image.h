@@ -25,7 +25,7 @@ class Image {
     void init_png_io();
     
  public:
-    Image(const std::string fn);
+    Image(const std::string);
     ~Image();
 
     void write_image() const;
