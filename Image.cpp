@@ -45,12 +45,12 @@ void Image::init_png_io() {
     png_read_info(m_read, m_info);
 }
 
-Image::Image(const std::string fn) {
+Image::Image(const std::string fn) noexcept(false) {
     m_fn = fn;
     m_file.open(m_fn);
 
     if(!is_png()) {
-        throw std::runtime_error("Invalid filetype; unable to ensure PNG.");
+        throw std::runtime_error("Invalid filetype; unable to detect PNG signature.");
     }
 
     init_png_io();
