@@ -3,7 +3,7 @@
 
 class Blur {
  public:
-     Blur(int, int, int, unsigned char**) noexcept;
+     Blur(int, int, int, unsigned char**);
      ~Blur(); 
 };
 
