@@ -3,7 +3,6 @@
 /* Implement a box blur. */
 
 Blur::Blur(int width, int height, int channels, unsigned char** pixels) {
-    channels = (channels == 4) ? 3 : channels; /* Not targeting alpha channels. */
     const unsigned int stride = width * channels;
 
     unsigned char** tmp = new unsigned char*[height];

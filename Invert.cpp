@@ -3,7 +3,6 @@
 /* Invert colors. */
 
 Invert::Invert(int width, int height, int channels, unsigned char** pixels) {
-    channels = (channels == 4) ? 3 : channels;
     for (int i = 0; i < height; i++) {
         auto row = pixels[i];
 
