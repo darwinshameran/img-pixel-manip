@@ -23,12 +23,13 @@ ImageDisplay::ImageDisplay(const char* window_title, int width, int height, int 
 }
 
 /*
- * A truecolor PNG image uses three seperate values for each
- * pixel (R, G, B(, A)) each being 8 bits. Each of these values belong to a
- * channel. Thus a png24 image has three channels (24 / 8), and a greyscale
- * png8 (8 / 8) has one channel. A special channel exists for Alpha, however
- * this channel does not provide any color but rather decides the opacity
- * for each pixel.
+ * A truecolor PNG image uses three, alternatively four seperate values for
+ * each pixel (R, G, B(, A)) each being 8 or 16 bits. We only deal with 8 bit
+ * images. Each of these values belong to a channel. Thus a PNG24 RGB image
+ * has three channels (24 / 8), and a greyscale PNG8 (8 / 8) has one channel.
+ * A special channel exists for Alpha, however this channel does not provide
+ * any color but rather decides the opacity for each pixel.
+ * The Alpha channel exists independently of associated pixels.
  *
  * To use SDL_CreateRGBSurfaceFrom() we pack the bits by shifting
  * them to ensure a valid 0xAABBGGRR hex. (0xRRGGBBAA is reversed due to
