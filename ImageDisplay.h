@@ -17,12 +17,12 @@ class ImageDisplay {
     SDL_Surface* m_screen;
     SDL_Window* m_window;
 
-    void convert_to_rgba(unsigned char**);
+    void convert_to_rgba(unsigned char** pixels);
 
  public:
-    ImageDisplay(const char*, int, int, int);
+    ImageDisplay(const char* window_title, int width, int height, int channels);
     ~ImageDisplay();
-    void display_image(unsigned char**);
+    void display_image(unsigned char** pixels);
 };
 
 #endif

@@ -3,7 +3,7 @@
 
 class Invert {
  public:
-     Invert(int, int, int, unsigned char**);
+     Invert(int width, int height, int channels, unsigned char** pixels);
      ~Invert();
 };
 

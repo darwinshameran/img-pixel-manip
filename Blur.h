@@ -3,7 +3,7 @@
 
 class Blur {
  public:
-     Blur(int, int, int, unsigned char**);
+     Blur(int width, int height, int channels, unsigned char** pixels);
      ~Blur(); 
 };
 
