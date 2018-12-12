@@ -23,7 +23,7 @@ ImageDisplay::ImageDisplay(const char* window_title, int width, int height, int 
 }
 
 /*
- * A truecolor PNG image uses three, alternatively four seperate values for
+ * A truecolor PNG image uses three, alternatively four separate values for
  * each pixel (R, G, B(, A)) each being 8 or 16 bits. We only deal with 8 bit
  * images. Each of these values belong to a channel. Thus a PNG24 RGB image
  * has three channels (24 / 8), and a greyscale PNG8 (8 / 8) has one channel.
