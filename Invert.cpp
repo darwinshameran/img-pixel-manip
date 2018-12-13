@@ -2,10 +2,9 @@
 
 /* Invert colors. */
 
-Invert::Invert(int width, int height, int channels, unsigned char** pixels) {
+void Invert::apply_filter(int width, int height, int channels, unsigned char** pixels) {
     for (int i = 0; i < height; i++) {
         auto row = pixels[i];
-
         for (int j = 0; j < width; j++) {
             auto px = &(row[j * channels]);
 

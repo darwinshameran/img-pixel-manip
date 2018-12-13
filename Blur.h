@@ -1,10 +1,14 @@
 #ifndef BLUR_H
 #define BLUR_H
+#include "Filter.h"
 
-class Blur {
+class Blur : public Filter {
  public:
-     Blur(int width, int height, int channels, unsigned char** pixels);
-     ~Blur(); 
+     Blur(int min_rgba_value, int max_rgba_value)
+         : Filter(min_rgba_value, max_rgba_value)
+         { }
+     virtual ~Blur();
+     virtual void apply_filter(int width, int height, int channels, unsigned char** pixels);
 };
 
 #endif

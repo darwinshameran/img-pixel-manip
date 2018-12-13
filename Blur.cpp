@@ -2,7 +2,7 @@
 
 /* Implement a box blur. */
 
-Blur::Blur(int width, int height, int channels, unsigned char** pixels) {
+void Blur::apply_filter(int width, int height, int channels, unsigned char** pixels) {
     const unsigned int stride = width * channels;
 
     unsigned char** tmp = new unsigned char*[height];
