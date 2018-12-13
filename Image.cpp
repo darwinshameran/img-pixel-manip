@@ -2,7 +2,6 @@
 #include "Blur.h"
 #include "Invert.h"
 #include "ImageDisplay.h"
-#include <iostream>
 
 /*
  * Callback function passed to png_set_read_fn()
