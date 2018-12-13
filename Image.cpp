@@ -90,13 +90,25 @@ void Image::display_image(const std::string& window_title) const {
     display.display_image(m_pixels);
 }
 
-void Image::apply_filter(std::string& filter) const {
+void Image::filter(std::string& filter) const {
     std::transform(filter.begin(), filter.end(), filter.begin(), ::tolower);
+    int max_rgba_value;
+    int min_rgba_value;
 
-    if (filter == "blur")
-        Blur(m_width, m_height, m_channels, m_pixels);
-    else if (filter == "invert")
-        Invert(m_width, m_height, m_channels, m_pixels);
+    if (m_bitdepth == 8)
+        max_rgba_value = 255;                         /* 8 bits per channel */
+    else
+        max_rgba_value = 65535;                       /* 16 bits per channel */
+
+    min_rgba_value = (max_rgba_value - max_rgba_value); /* 0 */
+
+    if (filter == "blur") {
+            Blur blur(min_rgba_value, max_rgba_value);
+            blur.apply_filter(m_width, m_height, m_channels, m_pixels);
+    } else if (filter == "invert") {
+        Invert invert(min_rgba_value, max_rgba_value);
+        invert.apply_filter(m_width, m_height, m_channels, m_pixels);
+    }
 }
 
 void Image::write_image() const {

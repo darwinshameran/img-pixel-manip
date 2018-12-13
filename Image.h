@@ -32,7 +32,7 @@ class Image {
     void read_image() const;
     bool is_png() const;
     void display_image(const std::string& window_title) const;
-    void apply_filter(std::string& filter) const;
+    void filter(std::string& filter) const;
 };
 
 #endif
