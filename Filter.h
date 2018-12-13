@@ -5,7 +5,7 @@
 class Filter {
  protected:
      unsigned char* get_pixel(const int pos, unsigned char** pixels) const;
-     void set_rgba(const int pos, unsigned char new_value, unsigned char* pixels) const;
+     void set_rgba(const int pos, unsigned char new_value, unsigned char* pixel) const;
      void replace_pixels(unsigned char** old_pixels, unsigned char** new_pixels, const int size) const;
      
      int clamp(const int rgba_value) const;
