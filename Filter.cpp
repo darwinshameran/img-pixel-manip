@@ -1,5 +1,4 @@
 #include "Filter.h"
-#include <iostream>
 
 unsigned char* Filter::get_pixel(const int pos, unsigned char** pixels) const {
     return pixels[pos];
