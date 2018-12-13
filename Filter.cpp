@@ -4,6 +4,10 @@ unsigned char* Filter::get_pixel(const int pos, unsigned char** pixels) const {
     return pixels[pos];
 }
 
+void Filter::set_rgba(int pos, unsigned char new_value, unsigned char* pixels) const {
+    pixels[pos] = new_value;
+}
+
 int Filter::clamp(const int rgba_value) const {
     return std::min(std::max(rgba_value, min_rgba_value), max_rgba_value);
 }
