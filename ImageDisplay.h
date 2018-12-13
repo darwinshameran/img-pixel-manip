@@ -12,7 +12,6 @@ class ImageDisplay {
     int m_channels;
     int m_pitch;
     unsigned int* m_pixels;
-    const char* m_window_title;
 
     SDL_Surface* m_screen;
     SDL_Window* m_window;
@@ -20,7 +19,7 @@ class ImageDisplay {
     void convert_to_rgba(unsigned char** pixels);
 
  public:
-    ImageDisplay(const char* window_title, int width, int height, int channels);
+    ImageDisplay(const std::string& window_title, int width, int height, int channels);
     ~ImageDisplay();
     void display_image(unsigned char** pixels);
 };

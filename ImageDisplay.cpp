@@ -1,7 +1,6 @@
 #include "ImageDisplay.h"
 
-ImageDisplay::ImageDisplay(const char* window_title, int width, int height, int channels) {
-    m_window_title = window_title;
+ImageDisplay::ImageDisplay(const std::string& window_title, int width, int height, int channels) {
     m_width = width;
     m_height = height;
     m_channels = channels;
@@ -13,7 +12,7 @@ ImageDisplay::ImageDisplay(const char* window_title, int width, int height, int 
         throw std::runtime_error("SDL_Init failed to initialize");
     }
 
-    m_window = SDL_CreateWindow(m_window_title,
+    m_window = SDL_CreateWindow(window_title.c_str(),
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
             m_width, m_height,
