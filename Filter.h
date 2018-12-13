@@ -11,11 +11,14 @@ class Filter {
      int clamp(const int rgba_value) const;
 
  private:
-     const int min_rgba_value = 0;
-     const int max_rgba_value = 255;
+     int min_rgba_value;
+     int max_rgba_value;
  
  public:
-     Filter();
+     Filter(int min_rgba_value, int max_rgba_value)
+         : min_rgba_value{min_rgba_value}
+         , max_rgba_value{max_rgba_value}
+       { }
      virtual ~Filter();
      
      virtual void apply_filter(int width, int height, int channels, unsigned char** pixels) = 0;
