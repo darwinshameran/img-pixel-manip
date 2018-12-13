@@ -1,7 +1,12 @@
 #include "Filter.h"
+#include <iostream>
 
 unsigned char* Filter::get_pixel(const int pos, unsigned char** pixels) const {
     return pixels[pos];
+}
+
+unsigned char* Filter::get_pixel(const int x, const int y, unsigned char** pixels) const {
+    return &pixels[x][y];
 }
 
 void Filter::set_rgba(int pos, unsigned char new_value, unsigned char* pixel) const {
