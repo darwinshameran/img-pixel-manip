@@ -7,11 +7,17 @@ int main(int argc, char* argv[]) {
         return false;
     }
 
-    Image img(argv[1]);
+    std::string image_fn(argv[1]);
+    std::string filter(argv[2]);
+    std::string window_title("Image display");
+
+    Image img(image_fn);
     
     img.read_image();
-    img.apply_filter(argv[2]);
-    img.display_image("Image display");
+
+    img.apply_filter(filter);
+    img.display_image("Image Display");
+
     img.write_image();
 
     return 0;
