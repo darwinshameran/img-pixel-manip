@@ -2,6 +2,7 @@
 #include "Blur.h"
 #include "Invert.h"
 #include "ImageDisplay.h"
+#include <iostream>
 
 /*
  * Callback function passed to png_set_read_fn()
@@ -37,9 +38,9 @@ void write_callback(png_structp png_ptr, png_bytep data, png_size_t len) {
  * Ref: http://refspecs.linuxfoundation.org/LSB_3.1.1/LSB-Desktop-generic/LSB-Desktop-generic/toclibpng.html
  */
 void Image::init_png_io() {
-    m_read = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+    m_read = png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
     m_info = png_create_info_struct(m_read);
-    
+
     /*
      * Define our own input function for reading PNG files, as opposed to using
      * the standard C I/O.
@@ -58,7 +59,7 @@ Image::Image(const std::string fn) {
 
     if(!is_png())
         throw std::runtime_error("Invalid filetype; unable to detect PNG signature.");
-    
+
     init_png_io();
 
     m_width = png_get_image_width(m_read, m_info);
@@ -73,6 +74,10 @@ Image::Image(const std::string fn) {
         m_pixels[i] = new unsigned char[m_rowbytes];
     }
 
+    /* Expand 1, 2 or 4 bit PNG images to 8 */
+    if (m_color_type == PNG_COLOR_TYPE_GRAY && m_bitdepth < 8)
+        png_set_expand_gray_1_2_4_to_8(m_read);
+
     png_read_update_info(m_read, m_info);
 }
 
@@ -81,13 +86,12 @@ void Image::read_image() const {
     png_read_end(m_read, m_info);
 }
 
-void Image::display_image(const char* window_title) const {
+void Image::display_image(const std::string& window_title) const {
     ImageDisplay display(window_title, m_width, m_height, m_channels);
     display.display_image(m_pixels);
 }
 
-void Image::apply_filter(const char* f) const {
-    std::string filter(f);
+void Image::apply_filter(std::string& filter) const {
     std::transform(filter.begin(), filter.end(), filter.begin(), ::tolower);
 
     if (filter == "blur")
@@ -98,8 +102,13 @@ void Image::apply_filter(const char* f) const {
 
 void Image::write_image() const {
     std::ofstream output("output.png", std::ios::binary);
-    png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-    png_set_write_fn(png_ptr, reinterpret_cast<png_voidp>(&output), write_callback, NULL);
+    png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
+
+    /*
+     * Define our own input function for writing PNG files, as opposed to using
+     * the standard C I/O.
+     */
+    png_set_write_fn(png_ptr, reinterpret_cast<png_voidp>(&output), write_callback, nullptr);
 
     /* Set file header. */
     png_set_IHDR(
@@ -149,7 +158,7 @@ bool Image::is_png() const {
 
 Image::~Image() {
     if (m_read && m_info)
-        png_destroy_read_struct(&m_read, &m_info, NULL);
+        png_destroy_read_struct(&m_read, &m_info, nullptr);
 
     for (int i = 0; i < m_height; i++) {
         delete[] m_pixels[i];
