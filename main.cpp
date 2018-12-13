@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
     
     img.read_image();
 
-    img.apply_filter(filter);
+    img.filter(filter);
     img.display_image("Image Display");
 
     img.write_image();
